@@ -1,42 +1,19 @@
-
 class Solution {
-    func longestPalindrome(_ s: String) -> String {
-        if s.isEmpty {
-            return ""
+    func maxSubArray(_ nums: [Int]) -> Int {
+
+        if nums.isEmpty {
+            return 0
         }
         
-        var palindromes: [String] = []
-        var maxLength = 0
-        for i in 0..<(s.count) {
-            var palindrome = ""
-            for j in i..<s.count {
-                 var isPalindrome = true
-                 palindrome += "\(s[j])"
-                for k in 0..<(j - i + 1) / 2 {
-                    if s[k + i] != s[j-k] {
-                        isPalindrome = false
-                    }
-                }
-                if isPalindrome {
-                    print(palindrome)
-                    palindromes.append(palindrome)
-                    maxLength = max(maxLength, j - i + 1)
-                }
-            }
+        var sum = nums[0]
+        var result = sum
+        
+        for i in 1..<nums.count {
+            sum = nums[i] + sum > nums[i] ? nums[i] + sum : nums[i]
+            result = max(result, sum)
         }
-        var longest = ""
-        for palindrome in palindromes {
-            if palindrome.count > longest.count {
-                longest = palindrome
-            }
-        }
-        return longest
+        return result
     }
 }
-extension StringProtocol {
-    subscript(_ offset: Int) -> Character {
-        return self[index(startIndex, offsetBy: offset)]
-    }
-}
-
-Solution().longestPalindrome("babad")
+//  [5,4,-1,7,8]
+Solution().maxSubArray([5,4,-1,7,8])
